@@ -1,86 +1,129 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import {
-  BBDD_Cliente,
-  BBDD_Contacto,
-  BBDD_Direccion,
-  BBDD_Empresa,
-  MyState,
-} from "../../types.ts";
 import { db } from "../../database_conection/SQLConnection.ts";
+import { jsonResponse } from "../../utils/security.ts";
+import {
+  asNullableString,
+  asPositiveInt,
+  asString,
+} from "../../utils/validation.ts";
 
-export const handler: Handlers<unknown, MyState> = {
-  PUT: async (req: Request, _ctx: FreshContext<MyState, unknown>) => {
-    const body: {
-      cl?: Partial<BBDD_Cliente>;
-      dr?: Partial<BBDD_Direccion>;
-      ct?: Partial<BBDD_Contacto>;
-      em?: Partial<BBDD_Empresa>;
-    } = await req.json();
-    console.log(_ctx.state.Nombre, body);
+type UpdateBody = {
+  cl?: Record<string, unknown>;
+  dr?: Record<string, unknown>;
+  ct?: Record<string, unknown>;
+  em?: Record<string, unknown>;
+};
 
-    if (body.cl) {
-      console.log(1);
+export const handler: Handlers = {
+  PUT: async (req: Request, ctx: FreshContext) => {
+    try {
+      const body = await req.json() as UpdateBody;
+      const updated: string[] = [];
 
-      const [cl] = await (await db()!).query(
-        `UPDATE clientes set
-      Nombre='${body.cl!.Nombre}',
-      Apellidos='${body.cl!.Apellidos}',
-      DNI='${body.cl!.DNI}',
-      OBSERVACIONES='${
-          body.cl!.OBSERVACIONES == "null" ? "-" : body.cl!.OBSERVACIONES
-        }',
-      usuario_actualizador='${_ctx.state.Nombre}',
-      Fecha_mod = CURRENT_TIMESTAMP
-      WHERE (id_cliente like '${body.cl!.id_cliente}' 
-            ) AND Activo=1 `,
+      if (body.cl) {
+        const idCliente = asPositiveInt(body.cl.id_cliente);
+        if (!idCliente) {
+          return jsonResponse({ error: "id_cliente obligatorio" }, 400);
+        }
+
+        await db().execute(
+          `UPDATE clientes
+           SET Nombre = ?, Apellidos = ?, DNI = ?, OBSERVACIONES = ?, usuario_actualizador = ?, Fecha_mod = CURRENT_TIMESTAMP
+           WHERE id_cliente = ? AND Activo = 1`,
+          [
+            asString(body.cl.Nombre),
+            asString(body.cl.Apellidos),
+            asString(body.cl.DNI),
+            asNullableString(body.cl.OBSERVACIONES) ?? "-",
+            ctx.state.Nombre,
+            idCliente,
+          ],
+        );
+        updated.push("cliente");
+      }
+
+      if (body.em) {
+        const idCliente = asPositiveInt(body.em.id_cliente);
+        if (!idCliente) {
+          return jsonResponse(
+            { error: "id_cliente obligatorio para empresa" },
+            400,
+          );
+        }
+
+        await db().execute(
+          `UPDATE empresa
+           SET Razon_Social = ?, CIF = ?, OBSERVACIONES = ?, usuario_actualizador = ?, Fecha_mod = CURRENT_TIMESTAMP
+           WHERE id_cliente = ? AND Activo = 1`,
+          [
+            asString(body.em.Razon_Social),
+            asString(body.em.CIF),
+            asNullableString(body.em.OBSERVACIONES) ?? "-",
+            ctx.state.Nombre,
+            idCliente,
+          ],
+        );
+        updated.push("empresa");
+      }
+
+      if (body.ct) {
+        const idCliente = asPositiveInt(body.ct.id_cliente);
+        if (!idCliente) {
+          return jsonResponse(
+            { error: "id_cliente obligatorio para contacto" },
+            400,
+          );
+        }
+
+        await db().execute(
+          `UPDATE contacto
+           SET Telefono = ?, Fijo = ?, Email = ?, OBSERVACIONES = ?, usuario_actualizador = ?, Fecha_mod = CURRENT_TIMESTAMP
+           WHERE id_cliente = ? AND Activo = 1`,
+          [
+            asString(body.ct.Telefono),
+            asString(body.ct.Fijo),
+            asString(body.ct.Email),
+            asNullableString(body.ct.OBSERVACIONES) ?? "-",
+            ctx.state.Nombre,
+            idCliente,
+          ],
+        );
+        updated.push("contacto");
+      }
+
+      if (body.dr) {
+        const idCliente = asPositiveInt(body.dr.id_cliente);
+        if (!idCliente) {
+          return jsonResponse({
+            error: "id_cliente obligatorio para dirección",
+          }, 400);
+        }
+
+        await db().execute(
+          `UPDATE direccion
+           SET direccion = ?, localidad = ?, municipio = ?, provincia = ?, codigo_postal = ?, OBSERVACIONES = ?, usuario_actualizador = ?, Fecha_mod = CURRENT_TIMESTAMP
+           WHERE id_cliente = ? AND Activo = 1`,
+          [
+            asString(body.dr.direccion),
+            asString(body.dr.localidad),
+            asString(body.dr.municipio),
+            asString(body.dr.provincia),
+            asString(body.dr.codigo_postal),
+            asNullableString(body.dr.OBSERVACIONES) ?? "-",
+            ctx.state.Nombre,
+            idCliente,
+          ],
+        );
+        updated.push("direccion");
+      }
+
+      return jsonResponse({ ok: true, updated });
+    } catch (error) {
+      console.error("Error al actualizar datos:", error);
+      return jsonResponse(
+        { error: "No se pudieron actualizar los datos" },
+        500,
       );
     }
-    if (body.em) {
-      const [em] = await (await db()!).query(
-        `UPDATE empresa set
-      Razon_Social='${body.em!.Razon_Social}',
-      CIF='${body.em!.CIF}',
-      OBSERVACIONES='${
-          body.em!.OBSERVACIONES == "null" ? "-" : body.em!.OBSERVACIONES
-        }',usuario_actualizador='${_ctx.state.Nombre}',
-      Fecha_mod = CURRENT_TIMESTAMP
-      WHERE (id_cliente like '${body.em!.id_cliente}' 
-            ) AND Activo=1 `,
-      );
-    }
-    if (body.ct) {
-      const [ct] = await (await db()!).query(
-        `UPDATE contacto set
-      Telefono='${body.ct!.Telefono}',
-      Fijo='${body.ct!.Fijo}',
-      Email='${body.ct!.Email}',
-      OBSERVACIONES='${
-          body.ct!.OBSERVACIONES == "null" ? "-" : body.ct!.OBSERVACIONES
-        }',usuario_actualizador='${_ctx.state.Nombre}',
-      Fecha_mod = CURRENT_TIMESTAMP
-      WHERE (id_cliente like '${body.ct!.id_cliente}' 
-            ) AND Activo=1 `,
-      );
-    }
-    if (body.dr) {
-      const [dr] = await (await db()!).query(
-        `UPDATE direccion set
-      direccion='${body.dr!.direccion}',
-      localidad='${body.dr!.localidad}',
-      municipio='${body.dr!.municipio}',
-      provincia='${body.dr!.provincia}',
-      codigo_postal='${body.dr!.codigo_postal}',
-      OBSERVACIONES='${
-          body.dr!.OBSERVACIONES == "null" ? "-" : body.dr!.OBSERVACIONES
-        }',usuario_actualizador='${_ctx.state.Nombre}',
-      Fecha_mod = CURRENT_TIMESTAMP
-      WHERE (id_cliente like '${body.dr!.id_cliente}' 
-            ) AND Activo=1 `,
-      );
-    }
-
-    const res = new Response("", { status: 200 });
-
-    return res;
   },
 };

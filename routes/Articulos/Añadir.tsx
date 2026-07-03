@@ -11,7 +11,7 @@ export const handler: Handlers<unknown, MyState> = {
       const [cli] = await (
         await db()!
       ).query(
-        `SELECT * FROM fabrica.clientes WHERE id_cliente=${id} AND Activo=1`
+        `SELECT * FROM fabrica.clientes WHERE id_cliente=${id} AND Activo=1`,
       );
       const [cont] = await (
         await db()!

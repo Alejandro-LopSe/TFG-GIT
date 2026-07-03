@@ -1,51 +1,68 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import jwt from "jsonwebtoken";
-import { createConnection, db } from "../database_conection/SQLConnection.ts";
 import { Login } from "../components/login/Login.tsx";
+import { auditLog, db } from "../database_conection/SQLConnection.ts";
+import type { User } from "../types.ts";
+import { asString } from "../utils/validation.ts";
+import {
+  buildAuthCookie,
+  signAuthToken,
+  verifyPassword,
+} from "../utils/security.ts";
 
 export const handler: Handlers = {
   POST: async (req: Request, ctx: FreshContext) => {
     try {
       const form = await req.formData();
-      const usuario = form.get("usuario");
-      const contrasena = form.get("contrasena");
-      const keygen = await Deno.env.get("KEYGEN");
-      const dbUser = await createConnection(
-        usuario as string,
-        contrasena as string,
-      );
-      console.log("conectado");
+      const usuario = asString(form.get("usuario"));
+      const contrasena = asString(form.get("contrasena"));
 
-      const [check] = await dbUser.query(
-        `SELECT * FROM fabrica.usuarios WHERE Nombre='${usuario}' AND Password='${contrasena}'`,
-      );
-      console.log(check);
-
-      //@ts-expect-error check always exists
-      const user: User = check[0];
-      if (user) {
-        const token = jwt.sign(JSON.stringify(user), keygen);
-        console.log("Token: ", token);
-        const headers = new Headers({
-          "Set-Cookie": `auth=${token}; Max-Age=3600;`,
-          location: "/Portal",
-        });
-
-        console.log("LOGIN: ", usuario, contrasena);
-        ctx.state = { user: user.Nombre, id_usuario: user.id_usuario };
-        return new Response("", {
-          headers,
-          status: 302,
-        });
+      if (!usuario || !contrasena) {
+        return ctx.render({ error: "Usuario y contraseña son obligatorios" });
       }
-      return ctx.render();
-    } catch (error) {
-      console.log(error);
 
-      return ctx.render();
+      const [rows] = await db().execute(
+        `SELECT id_usuario, Nombre, PasswordHash
+         FROM usuarios
+         WHERE Nombre = ?
+         LIMIT 1`,
+        [usuario],
+      );
+
+      const user = (rows as User[])[0];
+      if (!user || !user.PasswordHash) {
+        await auditLog(
+          usuario,
+          "Intento de login con usuario inexistente o sin hash configurado",
+        );
+        return ctx.render({ error: "Credenciales no válidas" });
+      }
+
+      const passwordIsValid = await verifyPassword(
+        contrasena,
+        user.PasswordHash,
+      );
+      if (!passwordIsValid) {
+        await auditLog(usuario, "Intento de login fallido");
+        return ctx.render({ error: "Credenciales no válidas" });
+      }
+
+      const token = signAuthToken(user);
+      await auditLog(usuario, "Inicio de sesión correcto");
+
+      return new Response(null, {
+        status: 302,
+        headers: {
+          "Set-Cookie": buildAuthCookie(token),
+          location: "/Portal",
+        },
+      });
+    } catch (error) {
+      console.error("Error en login:", error);
+      return ctx.render({ error: "No se pudo iniciar sesión" });
     }
   },
 };
+
 export default function Home() {
-  return <Login></Login>;
+  return <Login />;
 }

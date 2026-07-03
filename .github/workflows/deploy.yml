@@ -32,5 +32,3 @@ jobs:
           project: "fabrica-lopez"
           entrypoint: "main.ts"
           root: "."
-          
-          

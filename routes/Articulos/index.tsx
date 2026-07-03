@@ -34,7 +34,7 @@ export const handler: Handlers<
         a: BBDD_Articulo[];
         pag_activa: number;
       }
-    >
+    >,
   ) {
     const url = new URL(_req.url);
     const pag_activa: string = url.searchParams.get("pagina") || "0";
@@ -74,7 +74,7 @@ export const handler: Handlers<
       JOIN dic_envase de ON de.id = a.envase
       JOIN iva i ON i.id = a.Tipo_IVA
       LIMIT 20 OFFSET ${parseInt(pag_activa!) * 20}
-      `
+      `,
     );
     const [env] = await (
       await db()!
@@ -185,7 +185,7 @@ export default function Home(
       pag_activa: number;
     },
     MyState
-  >
+  >,
 ) {
   return (
     <div class="flex flex-row justify-start min-h-[calc(100dvh-5rem)] min-w-[calc(100dvw-6rem)]">

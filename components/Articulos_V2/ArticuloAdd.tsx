@@ -37,7 +37,8 @@ export const ArticuloAdd: FunctionalComponent = () => {
             Envase:{" "}
             <select
               class="flex px-1 mx-1  border-solid border-2 text-black bg-slate-300 border-gray-500 rounded-md"
-              value={1}>
+              value={1}
+            >
               {dics.envase.map((a) => {
                 return (
                   <option value={a.id} key={a.id}>
@@ -51,7 +52,8 @@ export const ArticuloAdd: FunctionalComponent = () => {
             Tamaño:{" "}
             <select
               class="flex px-1 mx-1 border-solid border-2 text-black bg-slate-300 border-gray-500 rounded-md"
-              value={1}>
+              value={1}
+            >
               {dics.tamano.map((a) => {
                 return <option value={a.id}>{a.tipo}</option>;
               })}
@@ -66,7 +68,8 @@ export const ArticuloAdd: FunctionalComponent = () => {
             IVA:{" "}
             <select
               class="flex px-1 mx-1 border-solid border-2 text-black bg-slate-300 border-gray-500 rounded-md"
-              value={1}>
+              value={1}
+            >
               {dics.iva.map((a) => {
                 return <option value={a.id}>{a.tipo}</option>;
               })}
@@ -91,7 +94,8 @@ export const ArticuloAdd: FunctionalComponent = () => {
           </div>
         </div>
       </div>
-      <div class="flex flex-row justify-start py-1 pl-2  space-x-2  w-fit pr-1"></div>
+      <div class="flex flex-row justify-start py-1 pl-2  space-x-2  w-fit pr-1">
+      </div>
     </div>
   );
 };

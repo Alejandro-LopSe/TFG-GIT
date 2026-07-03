@@ -2,33 +2,29 @@
   "lock": false,
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
-    "start": "deno run  --allow-all --env --watch=static/,routes/ dev.ts",
-    "debug": "deno run --allow-all --inspect --env --watch=static/,routes/ dev.ts",
+    "start": "deno run --allow-all --watch=static/,routes/,components/,islands/,database_conection/,utils/ dev.ts",
+    "debug": "deno run --allow-all --inspect --watch=static/,routes/,components/,islands/,database_conection/,utils/ dev.ts",
+    "hash-password": "deno run --allow-all scripts/hash_password.ts",
     "deploy": "deployctl deploy",
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
   "lint": {
     "rules": {
-      "tags": [
-        "fresh",
-        "recommended"
-      ]
+      "tags": ["fresh", "recommended"]
     }
   },
-  "exclude": [
-    "**/_fresh/*"
-  ],
+  "exclude": ["**/_fresh/*"],
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
+    "$std/": "https://deno.land/std@0.216.0/",
+    "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
+    "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
+    "bcryptjs": "npm:bcryptjs@^2.4.3",
     "jsonwebtoken": "npm:jsonwebtoken@^9.0.2",
     "preact": "https://esm.sh/preact@10.22.0",
     "preact/": "https://esm.sh/preact@10.22.0/",
-    "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
-    "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
-
     "preact/dev": "https://esm.sh/preact@10.20.2",
-    "tailwindcss": "npm:tailwindcss@3.4.1",
-    "$std/": "https://deno.land/std@0.216.0/"
+    "tailwindcss": "npm:tailwindcss@3.4.1"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
@@ -37,9 +33,7 @@
   "nodeModulesDir": "auto",
   "deploy": {
     "project": "fabrica-lopez",
-    "exclude": [
-      "**/node_modules"
-    ],
+    "exclude": ["**/node_modules"],
     "include": [],
     "entrypoint": "main.ts"
   }
