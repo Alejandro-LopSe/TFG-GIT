@@ -6,6 +6,8 @@ import * as $Api_Articulo_Articulo from "./routes/Api/Articulo/Articulo.ts";
 import * as $Api_Cliente_Cliente from "./routes/Api/Cliente/Cliente.ts";
 import * as $Api_Empresa_CIFS from "./routes/Api/Empresa/CIFS.ts";
 import * as $Api_Empresa_Empresa from "./routes/Api/Empresa/Empresa.ts";
+import * as $Api_Stock_Movimientos from "./routes/Api/Stock/Movimientos.ts";
+import * as $Api_Stock_Stock from "./routes/Api/Stock/Stock.ts";
 import * as $Api_Updates from "./routes/Api/Updates.ts";
 import * as $Articulos_Añadir from "./routes/Articulos/Añadir.tsx";
 import * as $Articulos_Modificar_id_ from "./routes/Articulos/Modificar/[id].tsx";
@@ -17,6 +19,8 @@ import * as $Clientes_index from "./routes/Clientes/index.tsx";
 import * as $Empresas_id_ from "./routes/Empresas/[id].tsx";
 import * as $Empresas_index from "./routes/Empresas/index.tsx";
 import * as $Portal_index from "./routes/Portal/index.tsx";
+import * as $Stock_Movimientos from "./routes/Stock/Movimientos.tsx";
+import * as $Stock_index from "./routes/Stock/index.tsx";
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_layout from "./routes/_layout.tsx";
@@ -38,6 +42,8 @@ import * as $Detalles_Direccion from "./islands/Detalles/Direccion.tsx";
 import * as $Detalles_Empresa from "./islands/Detalles/Empresa.tsx";
 import * as $Filtros_Filto_Articulos from "./islands/Filtros/Filto_Articulos.tsx";
 import * as $Filtros_Filtro_Clientes from "./islands/Filtros/Filtro_Clientes.tsx";
+import * as $Stock_StockHistory from "./islands/Stock/StockHistory.tsx";
+import * as $Stock_StockManager from "./islands/Stock/StockManager.tsx";
 import * as $buttons_Logout from "./islands/buttons/Logout.tsx";
 import * as $buttons_Save from "./islands/buttons/Save.tsx";
 import * as $buttons_SaveArticulo from "./islands/buttons/SaveArticulo.tsx";
@@ -49,6 +55,8 @@ const manifest = {
     "./routes/Api/Cliente/Cliente.ts": $Api_Cliente_Cliente,
     "./routes/Api/Empresa/CIFS.ts": $Api_Empresa_CIFS,
     "./routes/Api/Empresa/Empresa.ts": $Api_Empresa_Empresa,
+    "./routes/Api/Stock/Movimientos.ts": $Api_Stock_Movimientos,
+    "./routes/Api/Stock/Stock.ts": $Api_Stock_Stock,
     "./routes/Api/Updates.ts": $Api_Updates,
     "./routes/Articulos/Añadir.tsx": $Articulos_Añadir,
     "./routes/Articulos/Modificar/[id].tsx": $Articulos_Modificar_id_,
@@ -60,6 +68,8 @@ const manifest = {
     "./routes/Empresas/[id].tsx": $Empresas_id_,
     "./routes/Empresas/index.tsx": $Empresas_index,
     "./routes/Portal/index.tsx": $Portal_index,
+    "./routes/Stock/Movimientos.tsx": $Stock_Movimientos,
+    "./routes/Stock/index.tsx": $Stock_index,
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/_layout.tsx": $_layout,
@@ -84,6 +94,8 @@ const manifest = {
     "./islands/Detalles/Empresa.tsx": $Detalles_Empresa,
     "./islands/Filtros/Filto_Articulos.tsx": $Filtros_Filto_Articulos,
     "./islands/Filtros/Filtro_Clientes.tsx": $Filtros_Filtro_Clientes,
+    "./islands/Stock/StockHistory.tsx": $Stock_StockHistory,
+    "./islands/Stock/StockManager.tsx": $Stock_StockManager,
     "./islands/buttons/Logout.tsx": $buttons_Logout,
     "./islands/buttons/Save.tsx": $buttons_Save,
     "./islands/buttons/SaveArticulo.tsx": $buttons_SaveArticulo,

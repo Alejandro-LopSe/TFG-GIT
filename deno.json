@@ -6,11 +6,13 @@
     "debug": "deno run --allow-all --inspect --watch=static/,routes/,components/,islands/,database_conection/,utils/ dev.ts",
     "hash-password": "deno run --allow-all scripts/hash_password.ts",
     "deploy": "deployctl deploy",
-    "update": "deno run -A -r https://fresh.deno.dev/update .",
-    "build": "deno run -A dev.ts build",
-    "preview": "deno run -A main.ts"
+    "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
-  "lint": { "rules": { "tags": ["fresh", "recommended"] } },
+  "lint": {
+    "rules": {
+      "tags": ["fresh", "recommended"]
+    }
+  },
   "exclude": ["**/_fresh/*"],
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
@@ -24,7 +26,10 @@
     "preact/dev": "https://esm.sh/preact@10.20.2",
     "tailwindcss": "npm:tailwindcss@3.4.1"
   },
-  "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  },
   "nodeModulesDir": "auto",
   "deploy": {
     "project": "fabrica-lopez",

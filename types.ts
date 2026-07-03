@@ -106,3 +106,41 @@ export type dics = {
   iva: BBDD_IVA[];
   tipo_aceite: BBDD_Aceite[];
 };
+
+export type StockMovimientoTipo =
+  | "ENTRADA"
+  | "SALIDA"
+  | "AJUSTE"
+  | "RESERVA"
+  | "LIBERACION_RESERVA";
+
+export type StockEstado = "OK" | "BAJO_MINIMO" | "SIN_STOCK";
+
+export type StockArticulo = {
+  id_articulo: number;
+  nombre: string;
+  cantidad: number;
+  precio: number;
+  tipo_aceite: string;
+  tamano: string;
+  envase: string;
+  stock_minimo: number;
+  stock_maximo: number | null;
+  ubicacion: string | null;
+  estado_stock: StockEstado;
+};
+
+export type StockMovimiento = {
+  id_movimiento: number;
+  id_articulo: number;
+  tipo_movimiento: StockMovimientoTipo;
+  cantidad: number;
+  cantidad_anterior: number;
+  cantidad_posterior: number;
+  motivo: string;
+  referencia: string | null;
+  lote: string | null;
+  fecha_caducidad: string | null;
+  usuario_actualizador: string | null;
+  fch_creacion: string;
+};

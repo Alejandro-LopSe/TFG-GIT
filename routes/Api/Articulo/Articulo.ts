@@ -9,7 +9,28 @@ import {
   validateRequiredFields,
 } from "../../../utils/validation.ts";
 
-function mapArticulo(row: any): BBDD_Articulo {
+type ArticuloRow = {
+  id_articulo: number;
+  articulo_nombre: string;
+  precio: number;
+  cantidad: number;
+  articulo_observaciones: string | null;
+  aceite_id: number;
+  aceite_tipo: string;
+  aceite_observaciones: string | null;
+  tamano_id: number;
+  tamano_tipo: string;
+  tamano_observaciones: string | null;
+  envase_id: number;
+  envase_tipo: string;
+  envase_observaciones: string | null;
+  iva_id: number;
+  iva_tipo: string;
+  iva_actualizado: string | Date | null;
+  iva_usuario: string | null;
+};
+
+function mapArticulo(row: ArticuloRow): BBDD_Articulo {
   return {
     iloc: "Articulo",
     id_articulo: row.id_articulo,
@@ -84,7 +105,7 @@ export const handler: Handlers = {
       [nombre, offset],
     );
 
-    return jsonResponse((rows as any[]).map(mapArticulo));
+    return jsonResponse((rows as ArticuloRow[]).map(mapArticulo));
   },
 
   GET: async (_req: Request, _ctx: FreshContext) => {

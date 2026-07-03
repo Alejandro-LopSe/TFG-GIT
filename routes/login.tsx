@@ -5,7 +5,6 @@ import type { User } from "../types.ts";
 import { asString } from "../utils/validation.ts";
 import {
   buildAuthCookie,
-  redirect,
   signAuthToken,
   verifyPassword,
 } from "../utils/security.ts";
