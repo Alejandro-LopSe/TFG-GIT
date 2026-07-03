@@ -1,16 +1,15 @@
-//Usuario
 export type User = {
   id_usuario: number;
   Nombre: string;
-  Password: string;
+  PasswordHash?: string;
 };
+
 export type MyState = {
   id_usuario: number;
   Nombre: string;
   route: string;
 };
 
-//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< BBDD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 export type BBDD_Cliente = {
   id_cliente: number;
   Nombre: string;
@@ -22,6 +21,7 @@ export type BBDD_Cliente = {
   Activo: boolean;
   OBSERVACIONES: string;
 };
+
 export type BBDD_Contacto = {
   id_contacto: number;
   id_cliente: number;
@@ -32,6 +32,7 @@ export type BBDD_Contacto = {
   activo: boolean;
   OBSERVACIONES: string;
 };
+
 export type BBDD_Direccion = {
   id_direccion: number;
   id_cliente: number;
@@ -45,6 +46,7 @@ export type BBDD_Direccion = {
   activo: boolean;
   OBSERVACIONES: string;
 };
+
 export type BBDD_Empresa = {
   id_empresa: number;
   Razon_Social: string;
@@ -68,6 +70,7 @@ export type BBDD_Articulo = {
   Tipo_IVA: BBDD_IVA;
   OBSERVACIONES: string;
 };
+
 export type BBDD_IVA = {
   iloc: "IVA";
   id: number;
@@ -75,18 +78,21 @@ export type BBDD_IVA = {
   actualizado: string;
   usuario_actualizador: string;
 };
+
 export type BBDD_Aceite = {
   iloc: "Aceite";
   id: number;
   tipo: string;
   OBSERVACIONES: string;
 };
+
 export type BBDD_Envase = {
   iloc: "Envase";
   id: number;
   tipo: string;
   OBSERVACIONES: string;
 };
+
 export type BBDD_Tamano = {
   iloc: "Tamano";
   id: number;

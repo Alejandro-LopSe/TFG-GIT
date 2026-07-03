@@ -10,7 +10,8 @@ export const Articulo: FunctionalComponent<{ a: BBDD_Articulo }> = ({ a }) => {
       class="flex flex-col justify-between w-full p-2 
        text-black bg-slate-300 mb-1 border-gray-800 border-solid rounded-md border-2"
       id={`articulo-${a.id_articulo}`}
-      href={`/Articulos/${a.id_articulo}`}>
+      href={`/Articulos/${a.id_articulo}`}
+    >
       <div class="flex flex-row justify-between  text-black  w-full">
         <div class="flex flex-row justify-start  text-black  w-fit">
           <img src={s} class="w-8 mr-7 h-10" />

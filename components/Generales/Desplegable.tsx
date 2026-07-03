@@ -20,8 +20,7 @@ export const Desplegable: FunctionalComponent<{
 }> = ({ art, arr }) => {
   console.log(
     arr,
-
-    arr[0].iloc
+    arr[0].iloc,
     //
   );
 
@@ -29,7 +28,8 @@ export const Desplegable: FunctionalComponent<{
     <select
       name=""
       id={Object.values(arr).toString()}
-      class="flex px-1 mx-1 border-gray-300 border-solid rounded-md border-2">
+      class="flex px-1 mx-1 border-gray-300 border-solid rounded-md border-2"
+    >
       {arr.map((a) => {
         return (
           //@ts-expect-error check always exists

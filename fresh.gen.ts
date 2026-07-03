@@ -22,6 +22,7 @@ import * as $_app from "./routes/_app.tsx";
 import * as $_layout from "./routes/_layout.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
 import * as $login from "./routes/login.tsx";
+import * as $logout from "./routes/logout.ts";
 import * as $Articulos_Articulo from "./islands/Articulos/Articulo.tsx";
 import * as $Articulos_Articulos from "./islands/Articulos/Articulos.tsx";
 import * as $Clientes_Anadir_Cliente from "./islands/Clientes/Anadir_Cliente.tsx";
@@ -64,6 +65,7 @@ const manifest = {
     "./routes/_layout.tsx": $_layout,
     "./routes/_middleware.ts": $_middleware,
     "./routes/login.tsx": $login,
+    "./routes/logout.ts": $logout,
   },
   islands: {
     "./islands/Articulos/Articulo.tsx": $Articulos_Articulo,

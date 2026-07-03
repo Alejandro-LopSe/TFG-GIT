@@ -42,7 +42,8 @@ export const SaveArticulo: FunctionalComponent<{
       <button
         class="flex flex-row justify-start pt-1 pl-2 border-2 rounded-md border-gray-700 w-fit pr-1"
         onClick={save}
-        type="button">
+        type="button"
+      >
         <img src="save.png" class="w-6 h-6" />
         Añadir Artículo
       </button>

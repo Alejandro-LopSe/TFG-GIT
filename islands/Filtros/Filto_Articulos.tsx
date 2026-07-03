@@ -15,7 +15,7 @@ export const Filtro_Articulos: FunctionalComponent<{
       arts.filter((a) => {
         if (a.nombre.toLowerCase().includes(nombre.toLowerCase())) return true;
         else return false;
-      })
+      }),
     );
   };
 
